@@ -90,7 +90,7 @@
         .field input:focus { border-color: var(--navy-800); background: #fff; box-shadow: 0 0 0 4px rgba(30, 58, 138, .12); }
         .field.err input { border-color: var(--danger); box-shadow: 0 0 0 4px rgba(220, 38, 38, .1); }
         .eye {
-            position: absolute; right: 8px; bottom: 7px; width: 34px; height: 34px; border: none; background: none;
+            position: absolute; right: 5px; bottom: 4px; width: 42px; height: 42px; border: none; background: none;
             color: var(--muted); cursor: pointer; border-radius: 8px; display: grid; place-items: center;
         }
         .eye:hover { background: var(--navy-50); color: var(--navy-800); }
@@ -122,6 +122,7 @@
         .nav-links .btn { padding: 10px 20px; font-size: 14px; }
         .logout { background: none; border: none; color: var(--muted); font-size: 13.5px; cursor: pointer; font-weight: 600; }
         .logout:hover { color: var(--danger); }
+        .foot-logout { color: #94A3B8; font-size: 14px; padding: 0; font-family: inherit; text-decoration: underline; }
 
         .hero {
             background:
@@ -372,6 +373,7 @@
                     <div style="display:flex;gap:20px;flex-wrap:wrap">
                         <a class="js-wa" target="_blank" rel="noopener">WhatsApp Admin: 0857-8840-8882</a>
                         <a href="https://www.tiktok.com/@restinovika" target="_blank" rel="noopener">TikTok: @restinovika</a>
+                        <button class="logout foot-logout js-logout" type="button">Keluar dari perangkat ini</button>
                     </div>
                 </div>
                 <p class="license">Lisensi penggunaan pribadi. Dilarang menyalin, membagikan kata sandi, mendistribusikan, atau menjual ulang produk ini tanpa izin. Dibuat untuk membantu guru bekerja lebih cepat, lebih rapi, dan tidak tersesat di lautan administrasi.</p>
@@ -488,7 +490,7 @@
             pw.type = show ? "text" : "password";
             this.setAttribute("aria-label", show ? "Sembunyikan kata sandi" : "Tampilkan kata sandi");
         });
-        document.getElementById("logoutBtn").addEventListener("click", function () { clearAccess(); showGate(); });
+        document.querySelectorAll("#logoutBtn, .js-logout").forEach(function (b) { b.addEventListener("click", function () { clearAccess(); showGate(); }); });
     </script>
 </body>
 </html>
