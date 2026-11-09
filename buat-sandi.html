@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex">
+    <title>Buat Kode Kata Sandi – PartnerGuru Admin</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap" rel="stylesheet">
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'Plus Jakarta Sans', system-ui, sans-serif; background: #F8FAFC; color: #0F172A; min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 24px 16px; }
+        .card { background: #fff; border: 1px solid #E2E8F0; border-radius: 18px; padding: 30px 26px; width: 100%; max-width: 520px; }
+        h1 { font-size: 21px; font-weight: 800; color: #172554; margin-bottom: 6px; }
+        p { color: #64748B; font-size: 14px; line-height: 1.6; margin-bottom: 18px; }
+        label { display: block; font-size: 13px; font-weight: 600; margin-bottom: 6px; color: #334155; }
+        input { width: 100%; font-family: inherit; font-size: 16px; padding: 12px 14px; border: 1.5px solid #E2E8F0; border-radius: 12px; outline: none; }
+        input:focus { border-color: #1E3A8A; }
+        .out { margin-top: 16px; background: #EFF6FF; border: 1px solid #BFDBFE; border-radius: 12px; padding: 12px; font-family: Consolas, monospace; font-size: 13px; word-break: break-all; min-height: 46px; color: #172554; }
+        button { margin-top: 12px; width: 100%; font-family: inherit; font-weight: 700; font-size: 15px; padding: 12px; border: none; border-radius: 12px; background: #1E3A8A; color: #fff; cursor: pointer; }
+        button:hover { background: #172554; }
+        ol { margin: 18px 0 0 18px; color: #334155; font-size: 14px; line-height: 1.7; }
+        code { background: #F1F5F9; padding: 1px 6px; border-radius: 6px; font-size: 13px; }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <h1>Buat kode kata sandi baru</h1>
+        <p>Halaman khusus admin. Ketik kata sandi baru, lalu salin kodenya ke file <code>index.html</code>. Kata sandi tidak dikirim ke mana pun.</p>
+        <label for="pw">Kata sandi baru</label>
+        <input id="pw" type="text" placeholder="Contoh: GuruHebat2027" autocomplete="off">
+        <div class="out" id="out">Kode akan muncul di sini…</div>
+        <button id="copy">Salin kode</button>
+        <ol>
+            <li>Buka file <code>index.html</code> di folder <code>landing-vercel</code>.</li>
+            <li>Cari baris <code>var PASSWORD_HASH = "…";</code></li>
+            <li>Ganti isi di dalam tanda kutip dengan kode di atas, lalu simpan.</li>
+            <li>Upload ulang ke Vercel. Semua guru harus memasukkan kata sandi baru.</li>
+        </ol>
+    </div>
+    <script>
+        // SHA-256 cadangan (crypto.subtle hanya tersedia di https; ini agar tetap jalan saat dibuka lokal)
+        function sha256Fallback(bytes) {
+            var K = [0x428a2f98,0x71374491,0xb5c0fbcf,0xe9b5dba5,0x3956c25b,0x59f111f1,0x923f82a4,0xab1c5ed5,0xd807aa98,0x12835b01,0x243185be,0x550c7dc3,0x72be5d74,0x80deb1fe,0x9bdc06a7,0xc19bf174,0xe49b69c1,0xefbe4786,0x0fc19dc6,0x240ca1cc,0x2de92c6f,0x4a7484aa,0x5cb0a9dc,0x76f988da,0x983e5152,0xa831c66d,0xb00327c8,0xbf597fc7,0xc6e00bf3,0xd5a79147,0x06ca6351,0x14292967,0x27b70a85,0x2e1b2138,0x4d2c6dfc,0x53380d13,0x650a7354,0x766a0abb,0x81c2c92e,0x92722c85,0xa2bfe8a1,0xa81a664b,0xc24b8b70,0xc76c51a3,0xd192e819,0xd6990624,0xf40e3585,0x106aa070,0x19a4c116,0x1e376c08,0x2748774c,0x34b0bcb5,0x391c0cb3,0x4ed8aa4a,0x5b9cca4f,0x682e6ff3,0x748f82ee,0x78a5636f,0x84c87814,0x8cc70208,0x90befffa,0xa4506ceb,0xbef9a3f7,0xc67178f2];
+            var H = [0x6a09e667,0xbb67ae85,0x3c6ef372,0xa54ff53a,0x510e527f,0x9b05688c,0x1f83d9ab,0x5be0cd19];
+            var l = bytes.length, n = ((l + 9 + 63) >> 6) << 6, m = new Uint8Array(n);
+            m.set(bytes); m[l] = 0x80;
+            var bits = l * 8, dv = new DataView(m.buffer);
+            dv.setUint32(n - 4, bits >>> 0); dv.setUint32(n - 8, Math.floor(bits / 4294967296));
+            var w = new Uint32Array(64), r = function (x, s) { return (x >>> s) | (x << (32 - s)); };
+            for (var o = 0; o < n; o += 64) {
+                for (var i = 0; i < 16; i++) w[i] = dv.getUint32(o + i * 4);
+                for (i = 16; i < 64; i++) {
+                    var s0 = r(w[i-15], 7) ^ r(w[i-15], 18) ^ (w[i-15] >>> 3), s1 = r(w[i-2], 17) ^ r(w[i-2], 19) ^ (w[i-2] >>> 10);
+                    w[i] = (w[i-16] + s0 + w[i-7] + s1) >>> 0;
+                }
+                var a = H[0], b = H[1], c = H[2], d = H[3], e = H[4], f = H[5], g = H[6], h = H[7];
+                for (i = 0; i < 64; i++) {
+                    var t1 = (h + (r(e, 6) ^ r(e, 11) ^ r(e, 25)) + ((e & f) ^ (~e & g)) + K[i] + w[i]) >>> 0;
+                    var t2 = ((r(a, 2) ^ r(a, 13) ^ r(a, 22)) + ((a & b) ^ (a & c) ^ (b & c))) >>> 0;
+                    h = g; g = f; f = e; e = (d + t1) >>> 0; d = c; c = b; b = a; a = (t1 + t2) >>> 0;
+                }
+                H[0] = (H[0] + a) >>> 0; H[1] = (H[1] + b) >>> 0; H[2] = (H[2] + c) >>> 0; H[3] = (H[3] + d) >>> 0;
+                H[4] = (H[4] + e) >>> 0; H[5] = (H[5] + f) >>> 0; H[6] = (H[6] + g) >>> 0; H[7] = (H[7] + h) >>> 0;
+            }
+            return H.map(function (x) { return x.toString(16).padStart(8, "0"); }).join("");
+        }
+        function sha256Hex(text) {
+            var data = new TextEncoder().encode(text);
+            if (window.crypto && crypto.subtle) {
+                return crypto.subtle.digest("SHA-256", data).then(function (buf) {
+                    return Array.from(new Uint8Array(buf)).map(function (b) { return b.toString(16).padStart(2, "0"); }).join("");
+                });
+            }
+            return Promise.resolve(sha256Fallback(data));
+        }
+
+        var pw = document.getElementById('pw'), out = document.getElementById('out'), btn = document.getElementById('copy');
+        pw.addEventListener('input', function () {
+            var v = pw.value.trim();
+            if (!v) { out.textContent = 'Kode akan muncul di sini…'; return; }
+            sha256Hex(v).then(function (hex) { out.textContent = hex; });
+        });
+        btn.addEventListener('click', function () {
+            var t = out.textContent;
+            if (!/^[0-9a-f]{64}$/.test(t)) return;
+            var done = function () { btn.textContent = 'Kode tersalin'; setTimeout(function () { btn.textContent = 'Salin kode'; }, 1500); };
+            var range = document.createRange(); range.selectNodeContents(out);
+            var sel = window.getSelection(); sel.removeAllRanges(); sel.addRange(range);
+            try { if (document.execCommand('copy')) return done(); } catch (e) {}
+            if (navigator.clipboard) navigator.clipboard.writeText(t).then(done);
+        });
+    </script>
+</body>
+</html>
