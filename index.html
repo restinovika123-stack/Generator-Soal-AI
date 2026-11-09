@@ -230,12 +230,7 @@
                 <button type="submit" class="btn btn-navy">Masuk</button>
             </form>
 
-            <div class="divider">Belum punya kata sandi?</div>
-            <a class="btn btn-wa" id="waBtn" target="_blank" rel="noopener">
-                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.5 14.4c-.3-.1-1.8-.9-2-1s-.5-.1-.7.1-.8 1-1 1.2-.4.2-.7.1a8 8 0 0 1-2.4-1.5 9 9 0 0 1-1.6-2.1c-.2-.3 0-.5.1-.6l.5-.6.3-.5v-.5l-1-2.3c-.2-.6-.5-.5-.7-.5h-.6a1.1 1.1 0 0 0-.8.4 3.4 3.4 0 0 0-1 2.5 5.9 5.9 0 0 0 1.2 3.1 13.5 13.5 0 0 0 5.2 4.6c.7.3 1.3.5 1.7.6a4.2 4.2 0 0 0 1.9.1 3.2 3.2 0 0 0 2.1-1.5 2.6 2.6 0 0 0 .2-1.5c-.1-.1-.3-.2-.6-.3zM12 21.8a9.8 9.8 0 0 1-5-1.4l-.4-.2-3.7 1 1-3.6-.2-.4A9.8 9.8 0 1 1 12 21.8zM20.5 3.5A11.8 11.8 0 0 0 1.9 17.7L.2 24l6.4-1.7a11.8 11.8 0 0 0 5.6 1.4A11.8 11.8 0 0 0 20.5 3.5z"/></svg>
-                Minta akses ke admin via WhatsApp
-            </a>
-            <p class="gate-note">Kata sandi diberikan oleh admin PartnerGuru kepada guru yang telah terdaftar.</p>
+            <p class="gate-note">Kata sandi tercantum di file <b>Panduan Akses PartnerGuru</b> yang Anda terima setelah pembelian.</p>
             <p class="gate-foot">PartnerGuru © <span class="js-year">2026</span> · Resti Novika</p>
         </div>
     </main>
@@ -408,8 +403,7 @@
         var gateCard = document.getElementById("gateCard");
 
         var waUrl = "https://wa.me/" + WA_NUMBER + "?text=" + encodeURIComponent(WA_TEXT);
-        document.getElementById("waBtn").href = waUrl;
-        document.querySelectorAll(".js-wa").forEach(function (a) { a.href = waUrl; });
+                document.querySelectorAll(".js-wa").forEach(function (a) { a.href = waUrl; });
         document.querySelectorAll(".js-start").forEach(function (a) { a.href = CANVAS_URL; });
         document.querySelectorAll(".js-year").forEach(function (s) { s.textContent = new Date().getFullYear(); });
 
